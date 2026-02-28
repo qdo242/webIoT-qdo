@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cây trồng</title>
+  <link rel="stylesheet" href="PhantichAI.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+  <script src="./PhantichAI.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="top-icon">
+      <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+    </div>
+    <div class="icon-group">
+      <i class="fa-solid fa-house"></i>
+      <i class="fa-solid fa-seedling"></i>
+      <i class="fa-solid fa-user-astronaut"></i>
+      <i class="fa-solid fa-wifi"></i>
+      <i class="fa-solid fa-chart-pie"></i>
+    </div>
+    <div class="bottom-icon">
+        <i class="fa-solid fa-gear"></i>
+    </div>
+  </aside>
+
+  <div class="overlay-menu" id="overlayMenu">
+    <div class="overlay-header">
+      <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+    </div>
+
+    <ul class="overlay-list">
+        <li  id="Trang-chu">
+            <span class="icon"><i class="fa-solid fa-house"></i></span>
+            <span class="text">Trang chủ</span>
+        </li>
+        <li class="active" id = "caytrong">
+            <span class="icon"><i class="fa-solid fa-seedling"></i></span>
+            <span class="text">Cây trồng</span>
+        </li>
+        <li id ="chatbot">
+            <span class="icon"><i class="fa-solid fa-user-astronaut"></i></span>
+            <span class="text">AI - Chatbot</span>
+        </li>
+        <li id="Thiet-bi">
+            <span class="icon"><i class="fa-solid fa-wifi"></i></span>
+            <span class="text">Thiết bị</span>
+        </li>
+        <li id="Thong-ke">
+            <span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
+            <span class="text">Thống kê</span>
+        </li>
+    </ul>
+
+    <div class="overlay-footer">
+        <li>
+            <span class="icon"><i class="fa-solid fa-gear"></i></span>
+            <span class="text">Cài đặt</span>
+        </li>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="logo-search">
+      <img src="../Picture/Logo_IoTFarm.png" alt="IoT Farm Logo" class="logo" />
+      <input type="text" placeholder="Tìm kiếm thông tin" class="search-box" />
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    <div class="topbar-icons">
+      <i class="fas fa-bell"></i>
+      <i class="fas fa-user-circle"></i>
+    </div>
+  </header>
+
+  <div id="image-container" class="image-container">
+    <div class="image-row">
+      <!-- Cột trái: Ảnh -->
+      <div class="image-column">
+        <h3>Ảnh chụp từ camera</h3>
+        <img id="plant-image" alt="Ảnh cây trồng" />
+      </div>
+
+      <!-- Cột phải: Thông tin -->
+      <div class="info-column">
+        <p id="capture-time">Thời gian: ...</p>
+        <div class="ai-result">
+          <p id="ai-result">Kết quả phân tích AI...</p>
+        </div>
+        <div class="conclude">
+          <p id="conclude">Kết luận...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-button-wrapper">
+    <button id="go-back" class="back-button"><i class="fa-solid fa-arrow-left"></i> Trở về</button>
+  </div>
+
+
+</body>
+<script>
+  function toggleOverlay() {
+    const menu = document.getElementById('overlayMenu');
+    menu.classList.toggle('open');
+  }
+</script>
+</html>

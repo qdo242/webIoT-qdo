@@ -1,0 +1,686 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-y: auto;
+}
+
+.main-content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#dashboard-scroll-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Cho phép scroll cả 2 chiều */
+}
+
+#dashboard-wrapper {
+  display: flex;
+  flex-wrap: nowrap;      /* Ngăn xuống dòng → tràn ngang */
+  width: max-content;     /* Đảm bảo chiều ngang mở rộng theo nội dung */
+  height: max-content;    /* Cho phép tràn dọc */
+  gap: 20px;
+  padding: 20px;
+}
+
+  /*----------------------------------------*/
+  .sidebar {
+    width: 60px;
+    background-color: #429800;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 0;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 101;
+  }
+
+ /*----------------------------------------*/
+  .top-icon {
+    font-size: 30px;
+    margin: 5px;
+    cursor: pointer;
+  }
+ /*----------------------------------------*/
+  .icon-group {
+    display: flex;
+    font-size: 25px;
+    flex-direction: column;
+    margin: 40px 0px 0px 0px;
+    gap: 25px;
+    align-items: center;
+    cursor: pointer;
+  }
+ /*----------------------------------------*/
+  .bottom-icon {
+    font-size: 25px;
+    margin: 10px;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: 25px;
+  }
+ /*----------------------------------------*/
+  /* Overlay menu */
+.overlay-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #429800;
+  border-radius: 20px 0 0 20px;
+  padding: 20px;
+  z-index: 1100;
+  color: white;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.overlay-menu.open {
+  transform: translateX(0);
+}
+
+.overlay-header {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 30px;
+  margin: 0px 0px 40px 0px;
+}
+
+.overlay-list {
+  list-style: none;
+  font-size: 25px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+}
+
+.overlay-list li.active,
+.overlay-list li:hover {
+  background-color: rgba(88, 241, 226, 0.882);
+}
+
+
+.overlay-footer {
+  margin-top: auto;
+  margin-bottom: 5px;
+  font-size: 25px;
+    cursor: pointer;
+}
+
+
+.overlay-footer li.active,
+.overlay-footer li:hover {
+    background-color: rgba(88, 241, 226, 0.882);
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+  .overlay-list li,
+  .overlay-footer li {
+      display: flex;
+      border-radius: 12px;
+      cursor: pointer; 
+      padding: 4px;
+  }
+
+  .overlay-list li .icon,
+  .overlay-footer li .icon {
+      width: 40px; 
+      text-align:left;
+  }
+
+  .overlay-list li .text,
+  .overlay-footer li .text {
+      cursor: pointer;
+      flex: 1;
+  }
+
+ /*----------------------------------------*/
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #429800;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: 60px;
+    z-index: 100;
+  }
+ /*----------------------------------------*/
+  .logo-search {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 90px; 
+    width: 100px;
+    border-radius: 50% / 50%;
+    padding: 20px 0px;
+    margin: 60px;
+    overflow: hidden;
+  }
+ /*----------------------------------------*/ 
+  .search-box {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 30px 8px 10px;
+    width: 400px;
+    outline: none;
+    background-color: #ffffff;
+  }
+  .search-box::placeholder {
+    color: rgb(0, 0, 0);
+    opacity: 1; /* Đảm bảo không bị mờ */
+    font-size: 14px;
+  }
+ /*----------------------------------------*/
+  .search-icon {
+    position: relative;
+    right:60px;
+    color: rgb(0, 0, 0);
+  }
+  
+  .topbar-icons i {
+    font-size: 22px;
+    color: white;
+    margin-left: 20px;
+    cursor: pointer;
+  }
+
+  /*--------------------------------------------------------*/
+
+.notification-panel {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 320px;                 /* to hơn */
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  padding: 12px 14px 10px 14px;
+  display: none;
+  z-index: 9999;
+}
+
+/* ============= NOTIFICATION PANEL ============= */
+.notification-panel {
+  position: fixed;
+  top: 60px;             /* ngay dưới topbar */
+  right: 20px;
+  width: 320px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  padding: 12px 14px 10px 14px;
+  display: none;
+  z-index: 9999;
+}
+
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.notif-header h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #111827;
+}
+
+.notif-count {
+  background: #429800;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.notif-list {
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notif-item {
+  background: rgba(66, 152, 0, 0.07);   /* xanh mờ mờ nhạt nhạt */
+  border: 1px solid rgba(66, 152, 0, 0.08);
+  border-radius: 10px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notif-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.notif-meta {
+  font-size: 11px;
+  color: #6b7280;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notif-tag {
+  background: rgba(66, 152, 0, 0.17);
+  color: #14532d;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+}
+/*----------------------------------------------*/
+
+/* cụm icon trên thanh topbar */
+.topbar-icons {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* chấm đỏ của chuông */
+.notif-dot {
+  position: absolute;
+  top: -2px;
+  right: 42px;             /* đẩy sang trái để nằm đúng trên chuông */
+  width: 10px;
+  height: 10px;
+  background: #ff3b30;
+  border-radius: 50%;
+}
+
+
+/* Nội dung chính=============================================== */
+.chat-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  align-items: center;
+  padding: 20px;
+}
+
+.chat-container.chat-started {
+  justify-content: flex-end;
+}
+
+/* Ẩn khi bắt đầu chat */
+.chat-container.chat-started .animation-chatbot,
+.chat-container.chat-started .greeting {
+  display: none;
+}
+
+.animation-chatbot {
+  width: 250px;   
+  height: 250px;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+.greeting {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.5rem; /*rem = root element 1rem = 16px*/
+  font-weight: 500;
+  max-width: 90%;
+  transition: all 0.3s ease;
+}
+
+.chat-box-wrapper {
+  width: 100%;
+  max-width: 700px;
+  padding: 0 10px;
+}
+
+.chat-box {
+  display: flex;
+  flex-direction: column; /* Chia thành 2 hàng */
+  background-color: #fff;
+  padding: 15px 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  gap: 15px;
+}
+
+.chat-box input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  width: 100%;
+}
+textarea#userInput {
+  font-size: 20px;
+  width: 100%;
+  max-height: 150px;           /* Giới hạn chiều cao tối đa */
+  min-height: 40px;
+  line-height: 1.4;
+  resize: none;                /* Không cho người dùng resize thủ công */
+  padding: 10px;
+  border-radius: 10px;
+  overflow-y: auto;
+  border: transparent;
+  box-sizing: border-box;
+  transition: height 0.2s ease;
+  font-family: 'Segoe UI', sans-serif;
+}
+textarea#userInput:focus {
+  border: none;
+  outline: none;
+  box-shadow: none; /* Xóa ánh sáng xanh nhạt mặc định nếu có */
+}
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.right-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.mic-btn, .send-btn, .add-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+/* Sidebar bên phải===================================================== */
+/* Sidebar bên phải */
+.sidebar-right {
+  position: fixed;
+  right: 0;
+  top: 60px;
+  width: 60px;
+  height: 100vh;
+  background-color: #ffffff; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.145);
+  z-index: 999; /* Đảm bảo nó nằm trên các phần khác */
+}
+
+/* Danh sách icon trong sidebar */
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-list li {
+  color: #000000;
+  margin: 20px 0;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+/* ============================================================== */
+.chat-display {
+  max-height: 600px;
+  overflow-y: auto;
+  background: #ffffff;
+  padding: 50px 50px 50px 20px;
+  border-radius: 12px;
+  margin: 30px auto;
+  width: 95%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Scrollbar mờ và mảnh */
+.chat-display::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+.chat-display::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+.chat-display:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.026);
+}
+
+/* Ẩn ban đầu */
+.hidden {
+  display: none;
+}
+
+/* Tin nhắn người dùng */
+.chat-message.user {
+  align-self: flex-end;
+  background: #dcf8c6;
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 70%;
+  text-align: left;
+}
+
+/* Tin nhắn AI */
+.chat-message.ai {
+  align-self: flex-start;
+  background: #fff;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  max-width: 70%;
+  text-align: left;
+  line-height: 1.5;        /* Giãn dòng vừa phải */
+  margin: 0px 0;           /* Khoảng cách giữa các đoạn chat */
+}
+
+.chat-message.ai ul {
+  margin-bottom: 4px !important; /* Giảm khoảng cách sau danh sách */
+  margin-top: 4px !important;
+  padding-left: 20px;
+}
+
+.chat-message.ai li {
+  margin: 2px 0 !important;      /* Giảm khoảng cách giữa các mục */
+  line-height: 1.5;
+}
+
+.chat-message.ai br {
+  display: inline;               /* Tránh tạo khoảng trắng thừa */
+}
+
+.chat-message.ai {
+  line-height: 1.5;
+  margin: 6px 0;                 /* Khoảng cách giữa các chat */
+}
+
+
+/* Loading animation khi đợi câu trả lời chatbot======================================= */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  height: 40px;
+  gap: 6px;
+}
+
+.loading .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #009870;
+  border-radius: 50%;
+  animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loading .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.loading .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.2;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* sidebar chatbot======================================= */
+/* Panel trượt từ phải sang trái */
+/* Ẩn panel lúc đầu và chuẩn bị hiệu ứng trượt */
+.sliding-panel {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: -3px 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+}
+/* Khi có class 'show' thì panel trượt ra */
+.sliding-panel.show {
+  transform: translateX(0);
+}
+
+.title-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;                         /* Chữ trắng nổi trên nền xanh */
+  background-color: #009870;           /* Nền xanh */
+  padding: 8px 16px;                   /* Khoảng cách bên trong */
+  border-radius: 30px;                  /* Bo góc */
+  border: 2px solid #007e5f;           /* Viền đậm hơn một chút */
+  display: flex;
+  
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+}
+
+.panel-header i {
+  font-size: 25px;
+  cursor: pointer;
+  padding: 20px 12px;
+}
+
+.panel-list {
+  list-style: none;
+  padding: 10px 20px;
+}
+
+.panel-list li {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.panel-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+/* Dùng để ẩn nếu cần (nếu bạn dùng toggle class này) */
+.hidden {
+  display: none;
+}
+
+/* Lịch sử chat=================================================== */
+/* Phần lịch sử đoạn chat */
+.section-title {
+  padding: 10px 12px;
+  font-size: 15px;
+  color: #272727;
+  border-top: 1px solid #eee;
+  margin-top: 8px;
+}
+
+.history-panel {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.history-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
+  border-radius: 6px;
+  margin: 4px 6px;
+}
+
+.history-item:hover {
+  background-color: #e2e8f0;
+}
+
+.history-item.active {
+  background-color: #d0d0d0;
+}

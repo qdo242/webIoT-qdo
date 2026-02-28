@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Điều khiển thiết bị</title>
+  <link rel="stylesheet" href="Dieu_khien.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <script src="Dieu_khien.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="top-icon">
+      <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+    </div>
+    <div class="icon-group">
+      <i class="fa-solid fa-house"></i>
+      <i class="fa-solid fa-seedling"></i>
+      <i class="fa-solid fa-user-astronaut"></i>
+      <i class="fa-solid fa-wifi"></i>
+      <i class="fa-solid fa-chart-pie"></i>
+    </div>
+    <!-- <div class="bottom-icon">
+        <i class="fa-solid fa-gear"></i>
+    </div> -->
+  </aside>
+
+  <div class="overlay-menu" id="overlayMenu">
+    <div class="overlay-header">
+      <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+    </div>
+
+    <ul class="overlay-list">
+        <li id="Trang-chu">
+            <span class="icon"><i class="fa-solid fa-house"></i></span>
+            <span class="text">Trang chủ</span>
+        </li>
+        <li id = "caytrong">
+            <span class="icon"><i class="fa-solid fa-seedling"></i></span>
+            <span class="text">Cây trồng</span>
+        </li>
+        <li id = "chatbot">
+            <span class="icon"><i class="fa-solid fa-user-astronaut"></i></span>
+            <span class="text">AI - Chatbot</span>
+        </li>
+        <li class="active" id="Thiet-bi">
+            <span class="icon"><i class="fa-solid fa-wifi"></i></span>
+            <span class="text">Thiết bị</span>
+        </li>
+        <li id="Thong-ke">
+            <span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
+            <span class="text">Thống kê</span>
+        </li>
+    </ul>
+
+    <!-- <div class="overlay-footer">
+        <li>
+            <span class="icon"><i class="fa-solid fa-gear"></i></span>
+            <span class="text">Cài đặt</span>
+        </li>
+    </div> -->
+  </div>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="logo-search">
+      <img src="../Picture/10.png" alt="IoT Farm Logo" class="logo" />
+      <input type="text" placeholder="Tìm kiếm thông tin" class="search-box" />
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    <div class="topbar-icons">
+      <i class="fas fa-bell"  id="notif-bell"></i>
+      <span class="notif-dot" id="notif-dot" style="display:none"></span>
+      <div>
+      <i class="fas fa-user-circle"></i>
+    </div>
+  </header>
+
+  <!-- Hộp thông báo -->
+   <!-- PANEL THÔNG BÁO MỚI -->
+  <div class="notification-panel" id="notification-panel">
+    <div class="notif-header">
+      <h4>Thông báo</h4>
+      <span class="notif-count" id="notif-count">0</span>
+    </div>
+    <div class="notif-list" id="notif-list">
+      <!-- JS sẽ đẩy từng thông báo vào đây -->
+    </div>
+  </div>
+
+  <main class="main-content">
+    <div class="container-dk">
+      <!-- Khung Bơm -->
+      <div class="box pump-box">
+        <h3>Bơm:</h3>
+        <div class="pump-list">
+            <div class="pump-item" id="pump1">
+              <div class="pump-left">
+                <i class="fa-solid fa-faucet-drip"></i>
+                <span>Bơm 1</span>
+                <label class="switch">
+                  <input type="checkbox" onchange="togglePump(this)" data-device="pump_1" />
+                  <span class="slider"></span>
+                </label>
+                <div class="disabled-overlay"></div>
+              </div>
+              <div class="pump-right">
+                <div class="input-wrapper">
+                  <input type="number" placeholder="Lưu lượng (10 - 320ml)" />
+                  <div class="message"></div>
+                </div>
+                <button onclick="applyPump(this)">Áp dụng</button>
+              </div>
+            </div>
+          <!-- Bơm 2 -->
+            <div class="pump-item" id="pump2">
+              <div class="pump-left">
+                <i class="fa-solid fa-faucet-drip"></i>
+                <span>Bơm 2 </span>
+                <label class="switch">
+                  <input type="checkbox" onchange="togglePump(this)" data-device="pump_2" />
+                  <span class="slider"></span>
+                </label>
+                <div class="disabled-overlay"></div>
+              </div>
+              <div class="pump-right">
+                <div class="input-wrapper">
+                  <input type="number" placeholder="Lưu lượng (10 - 320ml)" />
+                  <div class="message"></div>
+                </div>
+                <button onclick="applyPump(this)">Áp dụng</button>
+              </div>
+            </div>
+          <!-- Bơm 3 -->
+            <div class="pump-item" id="pump3">
+              <div class="pump-left">
+                <i class="fa-solid fa-faucet-drip"></i>
+                <span>Bơm 3</span>
+                <label class="switch">
+                  <input type="checkbox" onchange="togglePump(this)" data-device="pump_3" />
+                  <span class="slider"></span>
+                </label>
+                <div class="disabled-overlay"></div>
+              </div>
+              <div class="pump-right">
+                <div class="input-wrapper">
+                  <input type="number" placeholder="Lưu lượng (10 - 320ml)" />
+                  <div class="message"></div>
+                </div>
+                <button onclick="applyPump(this)">Áp dụng</button>
+              </div>
+            </div>
+        </div>
+      </div>
+
+<!-- Khung Quạt Đèn + AI -->
+<div class="fan-light-box">
+
+  <!-- FAN -->
+  <div class="box fan-box">
+    <h3>Ventilation fan:</h3>
+    <div class="toggle-row">
+      <div class="left-icon">
+        <i class="fa-solid fa-fan fa-3x"></i>
+        <span style="font-size: 24px;">Quạt:</span>
+        <div class="message" style="font-size: 20px; margin: 12px"></div>
+      </div>
+      <div class="right-icon">
+        <label class="switch">
+          <input type="checkbox" onchange="toggleFan(this)" data-device="fan" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHT -->
+  <div class="box light-box">
+    <h3>Light:</h3>
+    <div class="toggle-row">
+      <div class="left-icon">
+        <i class="fa-solid fa-lightbulb fa-3x"></i>
+        <span style="font-size: 24px;">Đèn:</span>
+        <div class="message" style="font-size: 20px; margin: 12px"></div>
+      </div>
+      <div class="right-icon">
+        <label class="switch">
+          <input type="checkbox" onchange="toggleLight(this)" data-device="light" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+<div class="box ai-box">
+  <h3>AI irrigation:</h3>
+
+  <!-- Hàng trên: icon + text + switch -->
+  <div class="ai-auto-top">
+    <div class="ai-auto-left">
+      <i class="fa-solid fa-robot"></i>
+      <span style="font-size: 24px;">Chế độ tự động:</span>
+      <!-- ✅ message giống quạt/đèn -->
+      <div class="message" id="aiMessage" style="font-size: 16px; margin: 8px 0 0 0;"></div>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="aiToggle" onchange="toggleAI(this)" />
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <!-- 3 khu vực: chỉ hiển thị trạng thái, không click -->
+  <div class="ai-grid" id="aiGrid">
+    <div class="ai-area" data-zone="1">
+      <i class="fa-solid fa-seedling"></i>
+      <span>Khu vực 1</span>
+    </div>
+
+    <div class="ai-area" data-zone="2">
+      <i class="fa-solid fa-seedling"></i>
+      <span>Khu vực 2</span>
+    </div>
+
+    <div class="ai-area" data-zone="3">
+      <i class="fa-solid fa-seedling"></i>
+      <span>Khu vực 3</span>
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+
+
+      </div>
+    </div>
+          <!-- Lich su hoat dong -->
+    <!-- <button class="history-btn">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      Lịch sử hoạt độn
+    </button> -->
+  </main>
+
+</body>
+<script>
+  function toggleOverlay() {
+    const menu = document.getElementById('overlayMenu');
+    menu.classList.toggle('open');
+  }
+</script>
+</html>

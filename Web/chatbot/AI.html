@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chatbot Nông nghiệp</title>
+  <link rel="stylesheet" href="AI.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+  <script src="./AI.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="top-icon">
+      <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+    </div>
+    <div class="icon-group">
+      <i class="fa-solid fa-house"></i>
+      <i class="fa-solid fa-seedling"></i>
+      <i class="fa-solid fa-user-astronaut"></i>
+      <i class="fa-solid fa-wifi"></i>
+      <i class="fa-solid fa-chart-pie"></i>
+    </div>
+    <div class="bottom-icon">
+        <!-- <i class="fa-solid fa-gear"></i> -->
+    </div>
+  </aside>
+
+  <div class="overlay-menu" id="overlayMenu">
+    <div class="overlay-header">
+      <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+    </div>
+
+    <ul class="overlay-list">
+        <li  id="Trang-chu">
+            <span class="icon"><i class="fa-solid fa-house"></i></span>
+            <span class="text">Trang chủ</span>
+        </li>
+        <li id = "caytrong">
+            <span class="icon"><i class="fa-solid fa-seedling"></i></span>
+            <span class="text">Cây trồng</span>
+        </li>
+        <li class="active" id = "chatbot">
+            <span class="icon"><i class="fa-solid fa-user-astronaut"></i></span>
+            <span class="text">AI - Chatbot</span>
+        </li>
+        <li id="Thiet-bi">
+            <span class="icon"><i class="fa-solid fa-wifi"></i></span>
+            <span class="text">Thiết bị</span>
+        </li>
+        <li id="Thong-ke">
+            <span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
+            <span class="text">Thống kê</span>
+        </li>
+    </ul>
+
+    <div class="overlay-footer">
+        <!-- <li>
+            <span class="icon"><i class="fa-solid fa-gear"></i></span>
+            <span class="text">Cài đặt</span>
+        </li> -->
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="logo-search">
+      <img src="../Picture/10.png" alt="IoT Farm Logo" class="logo" />
+      <input type="text" placeholder="Tìm kiếm thông tin" class="search-box" />
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    <div class="topbar-icons">
+      <i class="fas fa-bell"  id="notif-bell"></i>
+      <span class="notif-dot" id="notif-dot" style="display:none"></span>
+      <div>
+      <i class="fas fa-user-circle"></i>
+    </div>
+  </header>
+
+    <!-- Hộp thông báo -->
+   <!-- PANEL THÔNG BÁO MỚI -->
+  <div class="notification-panel" id="notification-panel">
+    <div class="notif-header">
+      <h4>Thông báo</h4>
+      <span class="notif-count" id="notif-count">0</span>
+    </div>
+    <div class="notif-list" id="notif-list">
+      <!-- JS sẽ đẩy từng thông báo vào đây -->
+    </div>
+  </div>
+  
+  <div class="chat-container">
+    <div id="lottie-animation-chatbot" class="animation-chatbot"></div>
+    <h2 class="greeting">Chào bạn, bạn đang cần thông tin gì về Nông nghiệp?</h2>
+
+    <div id="chatDisplay" class="chat-display hidden"></div>
+    <!-- Loading animation -->
+    <div id="loading" class="loading hidden">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+    <div class="chat-box-wrapper">
+      <div class="chat-box">
+
+        <!-- <input type="text" id="userInput" style="font-size: 20px;" autocomplete="off" placeholder="Hỏi bất cứ điều gì về Nông nghiệp" /> -->
+        <textarea type="text" id="userInput" rows="1" autocomplete="off" placeholder="Hỏi bất cứ điều gì về Nông nghiệp"></textarea>
+        <div class="button-row">
+          <button class="add-btn" title="Thêm ảnh và tệp"><i class="fa-solid fa-plus"></i></button>
+          <div class="right-buttons">
+            <button class="mic-btn" title="Sử dụng mic"><i class="fa-solid fa-microphone"></i></button>
+            <button class="send-btn" id="sendBtn"><i class="fa-solid fa-circle-arrow-up"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-right">
+    <ul class="sidebar-list top-icons">
+      <li id="togglePanelBtn"><i class="fa-solid fa-ellipsis-vertical"></i></li>
+    </ul>
+    <ul class="sidebar-list bottom-icons">
+      <li><i class="fa-solid fa-pen-to-square"></i></li>
+      <li><i class="fa-solid fa-magnifying-glass"></i></li>
+    </ul>
+  </div>
+
+  <div class="sliding-panel">
+    <div class = "panel-header">
+      <li class="title-text">IoT-Smart Chatbot</li>
+      <i class="fa-solid fa-ellipsis-vertical" onclick="toggleOverlayAI()"></i>
+    </div>
+
+    <ul class="panel-list">
+        <li  id="Newchat">
+            <span class="icon"><i class="fa-solid fa-pen-to-square"></i></span>
+            <span class="text">Đoạn chat mới</span>
+        </li>
+        <li  id="Search">
+            <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+            <span class="text">Tìm kiếm đoạn chat</span>
+        </li>
+    </ul>
+      <!-- Danh sách lịch sử cuộc trò chuyện -->
+    <div class="section-title">Đoạn chat</div>
+    <ul id="chatHistoryPanel" class="history-panel"></ul>
+  </div>
+
+</body>
+<script>
+  function toggleOverlay() {
+    const menu = document.getElementById('overlayMenu');
+    menu.classList.toggle('open');
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const togglePanelBtn = document.getElementById("togglePanelBtn");
+    const panel = document.querySelector(".sliding-panel");
+    // Khi click vào icon ⋮ bên sidebar => mở panel
+    togglePanelBtn.addEventListener("click", () => {
+      panel.classList.add("show");
+    });
+
+    // Hàm đóng panel được gọi từ onclick trong panel-header
+    window.toggleOverlayAI = function () {
+      panel.classList.remove("show");
+    };
+  });
+</script>
+</html>

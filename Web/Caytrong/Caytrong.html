@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cây trồng</title>
+  <link rel="stylesheet" href="Caytrong.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+  <script src="./Caytrong.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="top-icon">
+      <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+    </div>
+    <div class="icon-group">
+      <i class="fa-solid fa-house"></i>
+      <i class="fa-solid fa-seedling"></i>
+      <i class="fa-solid fa-user-astronaut"></i>
+      <i class="fa-solid fa-wifi"></i>
+      <i class="fa-solid fa-chart-pie"></i>
+    </div>
+    <!-- <div class="bottom-icon">
+        <i class="fa-solid fa-gear"></i>
+    </div> -->
+  </aside>
+
+  <div class="overlay-menu" id="overlayMenu">
+    <div class="overlay-header">
+      <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+    </div>
+
+    <ul class="overlay-list">
+        <li  id="Trang-chu">
+            <span class="icon"><i class="fa-solid fa-house"></i></span>
+            <span class="text">Trang chủ</span>
+        </li>
+        <li class="active" id = "caytrong">
+            <span class="icon"><i class="fa-solid fa-seedling"></i></span>
+            <span class="text">Cây trồng</span>
+        </li>
+        <li id = "chatbot">
+            <span class="icon"><i class="fa-solid fa-user-astronaut"></i></span>
+            <span class="text">AI - Chatbot</span>
+        </li>
+        <li id="Thiet-bi">
+            <span class="icon"><i class="fa-solid fa-wifi"></i></span>
+            <span class="text">Thiết bị</span>
+        </li>
+        <li id="Thong-ke">
+            <span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
+            <span class="text">Thống kê</span>
+        </li>
+    </ul>
+
+    <!-- <div class="overlay-footer">
+        <li>
+            <span class="icon"><i class="fa-solid fa-gear"></i></span>
+            <span class="text">Cài đặt</span>
+        </li>
+    </div> -->
+  </div>
+
+  <header class="topbar">
+    <div class="logo-search">
+      <img src="../Picture/10.png" alt="IoT Farm Logo" class="logo" />
+      <input type="text" placeholder="Tìm kiếm thông tin" class="search-box" />
+      <i class="fas fa-search search-icon"></i>
+    </div>
+    <div class="topbar-icons">
+      <i class="fas fa-bell"  id="notif-bell"></i>
+      <span class="notif-dot" id="notif-dot" style="display:none"></span>
+      <div>
+      <i class="fas fa-user-circle"></i>
+    </div>
+  </header>
+
+    <!-- Hộp thông báo -->
+   <!-- PANEL THÔNG BÁO MỚI -->
+  <div class="notification-panel" id="notification-panel">
+    <div class="notif-header">
+      <h4>Thông báo</h4>
+      <span class="notif-count" id="notif-count">0</span>
+    </div>
+    <div class="notif-list" id="notif-list">
+      <!-- JS sẽ đẩy từng thông báo vào đây -->
+    </div>
+  </div>
+  
+  <div class="container">
+    <!-- Khu vực 1 -->
+    <div class="card">
+      <h2 id="khu-1-title">Khu vực 1</h2>
+      <div class="plant-wrapper">
+        <img src="../Picture/caycon.png" alt="Cây cải" class="plant-img">
+      </div>
+      <div class="row1">
+        <div class="item">
+          <i class="fa-solid fa-sun"></i>
+          <div class="label">ÁNH SÁNG</div>
+          <span class="value" id="as-1" style="display: none;"></span>
+        </div>
+
+        <div class="item">
+          <i class="fa-solid fa-temperature-three-quarters"></i>
+          <div class="label">NHIỆT ĐỘ</div>
+          <span class="value" id="nd-1" style="display: none;"></span>
+        </div>
+
+        <div class="item">
+          <i class="fa-solid fa-water"></i>
+          <div class="label">ĐỘ ẨM</div>
+          <span class="value" id="hmd-1" style="display: none;"></span>
+        </div>
+
+
+        <div class="item">
+          <i class="fa-solid fa-droplet"></i>
+          <div class="label">ĐỘ ẨM ĐẤT</div>
+          <span class="value" id="dad-1" style="display: none;"></span>
+        </div>
+      </div>
+
+      <div class="row2">
+          <div class="status" id="status-1">
+            <i class="fa-solid fa-leaf" style="font-size: 20px;"></i>
+            <div class="ai-reco">
+              <span class="ai-title">Gợi ý tưới:</span>
+              <span id="ai-1" class="ai-text">Đang tải...</span>
+            </div>
+          </div>
+        <button data-khu="1" class="detail-btn">Chi tiết</i>
+      </div>
+    </div>
+
+    <!-- Khu vực 2 -->
+    <div class="card">
+      <h2 id="khu-2-title">Khu vực 2</h2>
+      <div class="plant-wrapper">
+        <img src="../Picture/caycon.png" alt="Cây cải" class="plant-img">
+      </div>
+      <div class="row1">
+        <div class="item">
+          <i class="fa-solid fa-sun"></i>
+          <div class="label">ÁNH SÁNG</div>
+          <span class="value" id="as-2" style="display: none;"></span>
+        </div>
+
+        <div class="item">
+          <i class="fa-solid fa-temperature-three-quarters"></i>
+          <div class="label">NHIỆT ĐỘ</div>
+          <span class="value" id="nd-2" style="display: none;"></span>
+        </div>
+
+        <div class="item">
+          <i class="fa-solid fa-water"></i>
+          <div class="label">ĐỘ ẨM</div>
+          <span class="value" id="hmd-2" style="display: none;"></span>
+        </div>
+
+
+        <div class="item">
+          <i class="fa-solid fa-droplet"></i>
+          <div class="label">ĐỘ ẨM ĐẤT</div>
+          <span class="value" id="dad-2" style="display: none;"></span>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="status" id="status-2">
+          <i class="fa-solid fa-leaf" style="font-size: 20px;"></i>
+          <div class="ai-reco">
+            <span class="ai-title">Gợi ý tưới:</span>
+            <span id="ai-2" class="ai-text">Đang tải...</span>
+          </div>
+        </div>
+        <button data-khu="2" class="detail-btn">Chi tiết</button>
+      </div>
+    </div>
+
+    <!-- Khu vực 3 -->
+    <div class="card">
+      <h2 id="khu-3-title">Khu vực 3</h2>
+      <div class="plant-wrapper">
+        <img src="../Picture/caycon.png" alt="Cây cải" class="plant-img">
+      </div>
+      <div class="row1">
+        <div class="item">
+          <i class="fa-solid fa-sun"></i>
+          <div class="label">ÁNH SÁNG</div>
+          <span class="value" id="as-3" style="display: none;"></span>
+        </div>
+
+        <div class="item">
+          <i class="fa-solid fa-temperature-three-quarters"></i>
+          <div class="label">NHIỆT ĐỘ</div>
+          <span class="value" id="nd-3" style="display: none;"></span>
+        </div>
+
+
+        <div class="item">
+          <i class="fa-solid fa-water"></i>
+          <div class="label">ĐỘ ẨM</div>
+          <span class="value" id="hmd-3" style="display: none;"></span>
+        </div>
+
+
+        <div class="item">
+          <i class="fa-solid fa-droplet"></i>
+          <div class="label">ĐỘ ẨM ĐẤT</div>
+          <span class="value" id="dad-3" style="display: none;"></span>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="status" id="status-3">
+          <i class="fa-solid fa-leaf" style="font-size: 20px;"></i>
+          <div class="ai-reco">
+            <span class="ai-title">Gợi ý tưới:</span>
+            <span id="ai-3" class="ai-text">Đang tải...</span>
+          </div>
+        </div>
+        <button data-khu="3" class="detail-btn">Chi tiết</button>
+        </div>
+      </div>
+
+    </div>
+
+</body>
+<script>
+  function toggleOverlay() {
+    const menu = document.getElementById('overlayMenu');
+    menu.classList.toggle('open');
+  }
+</script>
+</html>

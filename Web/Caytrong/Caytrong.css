@@ -1,0 +1,519 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-y: auto;
+}
+
+.main-content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#dashboard-scroll-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Cho phép scroll cả 2 chiều */
+}
+
+#dashboard-wrapper {
+  display: flex;
+  flex-wrap: nowrap;      /* Ngăn xuống dòng → tràn ngang */
+  width: max-content;     /* Đảm bảo chiều ngang mở rộng theo nội dung */
+  height: max-content;    /* Cho phép tràn dọc */
+  gap: 20px;
+  padding: 20px;
+}
+
+  /*----------------------------------------*/
+  .sidebar {
+    width: 60px;
+    background-color: #429800;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 0;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 101;
+  }
+
+ /*----------------------------------------*/
+  .top-icon {
+    font-size: 30px;
+    margin: 5px;
+    cursor: pointer;
+  }
+ /*----------------------------------------*/
+  .icon-group {
+    display: flex;
+    font-size: 25px;
+    flex-direction: column;
+    margin: 40px 0px 0px 0px;
+    gap: 25px;
+    align-items: center;
+    cursor: pointer;
+  }
+ /*----------------------------------------*/
+  .bottom-icon {
+    font-size: 25px;
+    margin: 10px;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: 25px;
+  }
+ /*----------------------------------------*/
+  /* Overlay menu */
+.overlay-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #429800;
+  border-radius: 20px 0 0 20px;
+  padding: 20px;
+  z-index: 1100;
+  color: white;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.overlay-menu.open {
+  transform: translateX(0);
+}
+
+.overlay-header {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 30px;
+  margin: 0px 0px 40px 0px;
+}
+
+.overlay-list {
+  list-style: none;
+  font-size: 25px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+}
+
+.overlay-list li.active,
+.overlay-list li:hover {
+  background-color: rgba(88, 241, 226, 0.882);
+}
+
+
+.overlay-footer {
+  margin-top: auto;
+  margin-bottom: 5px;
+  font-size: 25px;
+    cursor: pointer;
+}
+
+
+.overlay-footer li.active,
+.overlay-footer li:hover {
+    background-color: rgba(88, 241, 226, 0.882);
+}
+/*--------------------------------------------------*/
+/*--------------------------------------------------*/
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+  .overlay-list li,
+  .overlay-footer li {
+      display: flex;
+      border-radius: 12px;
+      cursor: pointer; 
+      padding: 4px;
+  }
+
+  .overlay-list li .icon,
+  .overlay-footer li .icon {
+      width: 40px; 
+      text-align:left;
+  }
+
+  .overlay-list li .text,
+  .overlay-footer li .text {
+      cursor: pointer;
+      flex: 1;
+  }
+
+ /*----------------------------------------*/
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #429800;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: 60px;
+    z-index: 100;
+  }
+ /*----------------------------------------*/
+  .logo-search {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 90px; 
+    width: 100px;
+    border-radius: 50% / 50%;
+    padding: 20px 0px;
+    margin: 60px;
+    overflow: hidden;
+  }
+ /*----------------------------------------*/ 
+  .search-box {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 30px 8px 10px;
+    width: 400px;
+    outline: none;
+    background-color: #ffffff;
+  }
+  .search-box::placeholder {
+    color: rgb(0, 0, 0);
+    opacity: 1; /* Đảm bảo không bị mờ */
+    font-size: 14px;
+  }
+ /*----------------------------------------*/
+  .search-icon {
+    position: relative;
+    right:60px;
+    color: rgb(0, 0, 0);
+  }
+  
+  .topbar-icons i {
+    font-size: 22px;
+    color: white;
+    margin-left: 20px;
+    cursor: pointer;
+  }
+
+
+/*--------------------------------------------------------*/
+
+.notification-panel {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 320px;                 /* to hơn */
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  padding: 12px 14px 10px 14px;
+  display: none;
+  z-index: 9999;
+}
+
+/* ============= NOTIFICATION PANEL ============= */
+.notification-panel {
+  position: fixed;
+  top: 60px;             /* ngay dưới topbar */
+  right: 20px;
+  width: 320px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  padding: 12px 14px 10px 14px;
+  display: none;
+  z-index: 9999;
+}
+
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.notif-header h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #111827;
+}
+
+.notif-count {
+  background: #429800;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.notif-list {
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notif-item {
+  background: rgba(66, 152, 0, 0.07);   /* xanh mờ mờ nhạt nhạt */
+  border: 1px solid rgba(66, 152, 0, 0.08);
+  border-radius: 10px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notif-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.notif-meta {
+  font-size: 11px;
+  color: #6b7280;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notif-tag {
+  background: rgba(66, 152, 0, 0.17);
+  color: #14532d;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+}
+/*----------------------------------------------*/
+
+/* cụm icon trên thanh topbar */
+.topbar-icons {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* chấm đỏ của chuông */
+.notif-dot {
+  position: absolute;
+  top: -2px;
+  right: 42px;             /* đẩy sang trái để nằm đúng trên chuông */
+  width: 10px;
+  height: 10px;
+  background: #ff3b30;
+  border-radius: 50%;
+}
+
+
+  
+ /*================================================================================*/
+/* Lưới chứa các card */
+/* Container hiển thị các khu vực */
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 cột */
+  gap: 30px;
+  padding: 20px;
+  margin-left: 62px; /* để tránh đè sidebar */
+  margin-top: 70px; /* để tránh đè topbar */
+
+  /* kéo card dài ra */
+  grid-auto-rows: 1fr;
+  min-height: calc(100vh - 110px);
+  align-items: stretch;
+}
+
+/* Mỗi khu vực (card) */
+.card {
+  background-color: #dff1dd;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  position: relative;
+
+  /* 🔥 bật flex để chia card theo chiều dọc */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tiêu đề khu vực */
+.card h2 {
+  font-size: 25px;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+/* 🔥 NEW: bọc cây, căn giữa */
+.plant-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0 20px 0;   /* khoảng cách trên / dưới cây */
+}
+
+/* Ảnh cây to hơn */
+.plant-img {
+  width: 260px;           /* 🔥 tăng size cây, chỉnh số này nếu muốn to nữa */
+  height: auto;
+}
+
+/* Hàng các cảm biến bên dưới cây */
+.row1 {
+  display: flex;
+  justify-content: space-between;   /* hoặc space-evenly nếu muốn dàn đều */
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* Các item cảm biến */
+.item {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  color: #000;
+  min-width: 70px;
+}
+
+.item i {
+  font-size: 20px;
+  color: #000000;
+  margin-bottom: 4px;
+}
+
+.item .label {
+  margin-top: 4px;
+  font-weight: 500;
+}
+.value {
+  display: none;
+  margin-top: 4px;
+  font-weight: bold;
+  color: #2e7d32;
+  font-size: 13px;
+}
+
+/* Hàng status + nút dưới cùng */
+.row2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: auto;     /* 🔥 đẩy row2 xuống đáy card */
+}
+
+/* status lần 1 (giữ nguyên width) */
+.status {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background-color: antiquewhite;
+}
+
+/* status lần 2: bổ sung flex, text… */
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background-color: antiquewhite;
+  min-width: 200px; /* giữ kích thước cố định */
+}
+
+.status i {
+  font-size: 20px;
+}
+
+.status-text {
+  font-size: 14px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.detail-btn {
+  width: 100px; /* ✅ Cố định chiều rộng nút */
+  padding: 8px 0;
+  font-size: 14px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+.detail-btn:hover {
+  background-color: #429800;
+}
+
+/* ===== AI gợi ý tưới trong status ===== */
+.status {
+  align-items: flex-start;        /* để text canh lên trên */
+}
+
+.status-lines{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.status-title{
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  opacity: 0.9;
+}
+
+.ai-text{
+  font-size: 13px;
+  font-weight: 700;
+  color: #2e7d32;
+  white-space: normal;            /* cho xuống dòng */
+  line-height: 1.2;
+}
+
+/* Responsive: màn nhỏ hơn 768px sẽ xuống 1 cột */
+@media screen and (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+}
+
+/* Responsive: màn 768–1200px dùng 2 cột */
+@media screen and (min-width: 769px) and (max-width: 1199px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

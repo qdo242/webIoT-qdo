@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thống kê</title>
+  <link rel="stylesheet" href="Thong_ke.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.0/lottie.min.js"></script>
+  <script src="./Thong_ke.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <aside class="sidebar">
+      <div class="top-icon">
+        <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+      </div>
+      <div class="icon-group">
+        <i class="fa-solid fa-house"></i>
+        <i class="fa-solid fa-seedling"></i>
+        <i class="fa-solid fa-user-astronaut"></i>
+        <i class="fa-solid fa-wifi"></i>
+        <i class="fa-solid fa-chart-pie"></i>
+      </div>
+      <div class="bottom-icon">
+          <!-- <i class="fa-solid fa-gear"></i> -->
+      </div>
+    </aside>
+
+    <div class="overlay-menu" id="overlayMenu">
+      <div class="overlay-header">
+        <i class="fas fa-bars" onclick="toggleOverlay()"></i>
+      </div>
+
+      <ul class="overlay-list">
+          <li id="Trang-chu">
+              <span class="icon"><i class="fa-solid fa-house"></i></span>
+              <span class="text">Trang chủ</span>
+          </li>
+          <li id = "caytrong">
+              <span class="icon"><i class="fa-solid fa-seedling"></i></span>
+              <span class="text">Cây trồng</span>
+          </li>
+          <li id = "chatbot">
+              <span class="icon"><i class="fa-solid fa-user-astronaut"></i></span>
+              <span class="text">AI - Chatbot</span>
+          </li>
+          <li id="Thiet-bi">
+              <span class="icon"><i class="fa-solid fa-wifi"></i></span>
+              <span class="text">Thiết bị</span>
+          </li>
+          <li class="active" id="Thong-ke">
+              <span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
+              <span class="text">Thống kê</span>
+          </li>
+      </ul>
+
+      <div class="overlay-footer">
+          <li>
+              <!-- <span class="icon"><i class="fa-solid fa-gear"></i></span>
+              <span class="text">Cài đặt</span> -->
+          </li>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <div class="logo-search">
+        <img src="../Picture/10.png" alt="IoT Farm Logo" class="logo" />
+        <input type="text" placeholder="Tìm kiếm thông tin" class="search-box" />
+        <i class="fas fa-search search-icon"></i>
+      </div>
+    <div class="topbar-icons">
+      <i class="fas fa-bell"  id="notif-bell"></i>
+      <span class="notif-dot" id="notif-dot" style="display:none"></span>
+      <div>
+      <i class="fas fa-user-circle"></i>
+    </div>
+    </header>
+
+      <!-- Hộp thông báo -->
+   <!-- PANEL THÔNG BÁO MỚI -->
+  <div class="notification-panel" id="notification-panel">
+    <div class="notif-header">
+      <h4>Thông báo</h4>
+      <span class="notif-count" id="notif-count">0</span>
+    </div>
+    <div class="notif-list" id="notif-list">
+      <!-- JS sẽ đẩy từng thông báo vào đây -->
+    </div>
+  </div>
+  
+  <div class="header-controls">
+    <!-- Trái: Nút Xuất dữ liệu -->
+    <div class="left">
+      <button id="ExportDataBtn" style="cursor:pointer;">Xuất dữ liệu</button>
+    </div>
+
+    <!-- Giữa: Tiêu đề -->
+    <div class="center-title">
+      <h2>Dữ liệu theo thời gian thực</h2>
+    </div>
+
+    <!-- Phải: Nút Chế độ -->
+    <div class="right">
+      <div class="mode-container">
+        <button class="mode-button" onclick="toggleMenu()">
+          <span>Chế độ</span>
+          <i class="fa-solid fa-circle-chevron-down"></i>
+        </button>
+
+        <div class="mode-menu" id="modeMenu">
+          <div id="realtime" class="mode-option active">
+            <img src="../Picture/on-time.png" width="24" />
+            <span>Dữ liệu theo thời gian thực</span>
+          </div>
+          <div id="Ngay" class="mode-option">
+            <img src="../Picture/calendar.png" width="24" />
+            <span>Dữ liệu theo ngày</span>
+          </div>
+          <div id="Thang" class="mode-option">
+            <img src="../Picture/month.png" width="24" />
+            <span>Dữ liệu theo tháng</span>
+          </div>
+          <div id="Nam" class="mode-option">
+            <img src="../Picture/year.png" width="24" />
+            <span>Dữ liệu theo năm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="overlay" class="overlay hidden"></div>
+    <div class="chart-grid">
+      <div class="chart-container">
+        <canvas id="temperatureChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="humChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="luxChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="soil_1Chart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="soil_2Chart"></canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="soil_3Chart"></canvas>
+      </div>
+      <!-- <div class="chart-container">
+        <canvas id="soil_4Chart"></canvas>
+      </div> -->
+      <!-- <div class="chart-container">
+        <canvas id="soil_5Chart"></canvas>
+      </div> -->
+      <!-- <div class="chart-container">
+        <canvas id="soil_6Chart"></canvas>
+      </div>  -->
+    </div>
+
+  <div id="ExportPopup" class="popup hidden">
+    <span id="closePopup" class="close-btn">&times;</span> <!-- Nút đóng -->
+    <h3 style = "font-size: 30px;">Bạn muốn truy xuất dữ liệu theo thời gian thực?</h3>
+    <p style = "font-size: 30px; margin: 20px">Vui lòng chọn ngày, tháng, năm!</p>
+    <label>Ngày: <input type="number" id="day" placeholder="DD" min="1" max="31"></label>
+    <label>Tháng: <input type="number" id="month" placeholder="MM" min="1" max="12"></label>
+    <label>Năm: <input type="number" id="year" placeholder="YYYY" min="2000" max="2099"></label>
+    <div>
+      <button style = "cursor:pointer" id="submitDate">Xác nhận</button>
+    </div>
+    <p id="noDataMessage" class="hidden"></p>
+  </div>
+
+
+</body>
+<script>
+  function toggleOverlay() {
+    const menu = document.getElementById('overlayMenu');
+    menu.classList.toggle('open');
+  }
+</script>
+</html>

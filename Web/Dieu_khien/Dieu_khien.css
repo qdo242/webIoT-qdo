@@ -1,0 +1,831 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-y: auto;
+}
+
+/* ============= LAYOUT CHÍNH ============= */
+.main-content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#dashboard-scroll-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Cho phép scroll cả 2 chiều */
+}
+
+#dashboard-wrapper {
+  display: flex;
+  flex-wrap: nowrap;      /* Ngăn xuống dòng → tràn ngang */
+  width: max-content;     /* Đảm bảo chiều ngang mở rộng theo nội dung */
+  height: max-content;    /* Cho phép tràn dọc */
+  gap: 20px;
+  padding: 20px;
+}
+
+/*----------------------------------------*/
+.sidebar {
+  width: 60px;
+  background-color: #429800;
+  color: white;
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 0;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 101;
+}
+
+/*----------------------------------------*/
+.top-icon {
+  font-size: 30px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+/*----------------------------------------*/
+.icon-group {
+  display: flex;
+  font-size: 25px;
+  flex-direction: column;
+  margin: 40px 0px 0px 0px;
+  gap: 25px;
+  align-items: center;
+  cursor: pointer;
+}
+
+/*----------------------------------------*/
+.bottom-icon {
+  font-size: 25px;
+  margin: 10px;
+  cursor: pointer;
+  margin-top: auto;
+  margin-bottom: 25px;
+}
+
+/*----------------------------------------*/
+/* Overlay menu */
+.overlay-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #429800;
+  border-radius: 20px 0 0 20px;
+  padding: 20px;
+  z-index: 1100;
+  color: white;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-menu.open {
+  transform: translateX(0);
+}
+
+.overlay-header {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 30px;
+  margin: 0px 0px 40px 0px;
+}
+
+.overlay-list {
+  list-style: none;
+  font-size: 25px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; 
+}
+
+.overlay-list li.active,
+.overlay-list li:hover {
+  background-color: rgba(88, 241, 226, 0.882);
+}
+
+.overlay-footer {
+  margin-top: auto;
+  margin-bottom: 5px;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.overlay-footer li.active,
+.overlay-footer li:hover {
+  background-color: rgba(88, 241, 226, 0.882);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay-list li,
+.overlay-footer li {
+  display: flex;
+  border-radius: 12px;
+  cursor: pointer; 
+  padding: 4px;
+}
+
+.overlay-list li .icon,
+.overlay-footer li .icon {
+  width: 40px; 
+  text-align:left;
+}
+
+.overlay-list li .text,
+.overlay-footer li .text {
+  cursor: pointer;
+  flex: 1;
+}
+
+/*----------------------------------------*/
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #429800;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  height: 60px;
+  z-index: 100;
+}
+
+/*----------------------------------------*/
+.logo-search {
+  display: flex;
+  align-items: center;
+}
+  
+.logo {
+  height: 90px; 
+  width: 100px;
+  border-radius: 50% / 50%;
+  padding: 20px 0px;
+  margin: 60px;
+  overflow: hidden;
+}
+
+/*----------------------------------------*/ 
+.search-box {
+  border: none;
+  border-radius: 10px;
+  padding: 8px 30px 8px 10px;
+  width: 400px;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.search-box::placeholder {
+  color: rgb(0, 0, 0);
+  opacity: 1;
+  font-size: 14px;
+}
+
+/*----------------------------------------*/
+.search-icon {
+  position: relative;
+  right:60px;
+  color: rgb(0, 0, 0);
+}
+  
+.topbar-icons i {
+  font-size: 22px;
+  color: white;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+/*--------------------------------------------------------*/
+.notification-panel {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 320px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  padding: 12px 14px 10px 14px;
+  display: none;
+  z-index: 9999;
+}
+
+/* ============= NOTIFICATION PANEL ============= */
+.notification-panel {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  width: 320px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  padding: 12px 14px 10px 14px;
+  display: none;
+  z-index: 9999;
+}
+
+.notif-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.notif-header h4 {
+  margin: 0;
+  font-size: 14px;
+  color: #111827;
+}
+
+.notif-count {
+  background: #429800;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+
+.notif-list {
+  max-height: 260px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notif-item {
+  background: rgba(66, 152, 0, 0.07);
+  border: 1px solid rgba(66, 152, 0, 0.08);
+  border-radius: 10px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notif-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #0f172a;
+}
+
+.notif-meta {
+  font-size: 11px;
+  color: #6b7280;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notif-tag {
+  background: rgba(66, 152, 0, 0.17);
+  color: #14532d;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+}
+
+/*----------------------------------------------*/
+/* cụm icon trên thanh topbar */
+.topbar-icons {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* chấm đỏ của chuông */
+.notif-dot {
+  position: absolute;
+  top: -2px;
+  right: 42px;
+  width: 10px;
+  height: 10px;
+  background: #ff3b30;
+  border-radius: 50%;
+}
+
+/*----------------------------------------*/
+.main-content {
+  padding: 75px 20px 20px 20px;
+  background-color: #e8e6e6; 
+  min-height: 100vh;
+}
+
+/*----------------------------------------*/  
+.container-dk {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr;  /* trái Bơm – phải Quạt/Đèn */
+  gap: 24px;
+  padding: 0 40px 20px 85px;
+  height: calc(100vh - 120px);
+  align-items: stretch;
+}
+
+/* mỗi card (Bơm / Quạt / Đèn / Camera...) */
+.box {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 260px;
+}
+
+/* ================== PUMP ================== */
+.pump-item {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-radius: 10px;
+  margin: 5px;
+  margin-bottom: 12px;
+}
+
+.pump-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  padding: 6px;
+  border-radius: 10px;
+  background: #ffffff;
+  gap: 5px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.203);
+  margin: 4px;
+  position: relative;
+}
+
+.pump-left i {
+  font-size: 30px;
+  color: #666;
+}
+
+.pump-left span {
+  font-size: 20px;
+}
+
+.pump-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  margin: 0 0 0 20px;
+  height: 150px;  
+  border-radius: 10px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.203);
+  width: 80%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Khung xám cho bơm */
+.disabled-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(200, 200, 200, 0.5);
+  border-radius: 10px;
+  z-index: 2;
+  pointer-events: all;
+  transition: opacity 0.3s ease;
+  display: block;
+}
+
+.disabled {
+  display: block;
+}
+
+.enabled {
+  display: none;
+}
+
+/* Khi kích hoạt switch, vùng phủ sẽ ẩn đi */
+.pump-right.enabled .disabled-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 78%;
+}
+
+.input-wrapper input {
+  border: 2px solid #2ca87f;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.message {
+font-size: 16px;      /* to hơn */
+  font-weight: 600;     /* đậm hơn một chút */
+  margin-top: 8px;      /* cách input ra xa hơn */
+  display: flex;
+  align-items: center;
+  gap: 6px; 
+}
+
+.pump-item button {
+  padding: 8px 14px;
+  background-color: #2ca87f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pump-item input[type="number"] {
+  margin: 5px 0 0 0;
+  padding: 6px;
+}
+
+/* ================== CAMERA (để nguyên) ================== */
+.camera-auto{
+  padding: 26px;
+  margin: 8px 5px 20px 5px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.203);
+  display:flex;    
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.camera-manual{
+  margin: 15px 5px 5px 5px;
+  padding: 26px;   
+  border-radius: 10px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.203);
+}
+
+.camera-manual-top {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.left-icon, .right-icon{
+  display:flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.area-grid button{
+  padding: 8px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.area-grid button.active {
+  background-color: #009870;
+  color: white;
+}
+
+.area-grid button i{
+  font-size: 22px;
+}
+
+.area-grid button.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+  
+.disabled-overlay-cam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(200, 200, 200, 0.5);
+  z-index: 10;
+  display:none;
+  border-radius: 10px;
+  cursor: not-allowed;
+}
+
+.camera-auto, .camera-manual {
+  position: relative;
+}
+
+/* ================== FAN & LIGHT (+ AI) ================== */
+
+/* Cột bên phải chứa 3 box (fan/light/ai) chia đều chiều cao */
+.fan-light-box{
+  display: grid;
+  grid-template-rows: 1fr 1fr 1.35fr; /* ✅ AI cao hơn 1 chút để không bị cắt */
+  gap: 24px;
+  height: 100%;
+  min-height: 0;
+}
+
+
+/* Override min-height của .box (vì .box đang min-height:260px) */
+.fan-light-box > .box {
+  min-height: 0 !important;     /* ✅ chìa khóa để chia đều */
+  padding: 12px 16px;           /* ✅ gọn lại */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tiêu đề */
+.fan-box h3,
+.light-box h3,
+.ai-box h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+/* Hàng icon + chữ + switch */
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+  margin-top: 6px;
+
+  padding: 14px 16px;
+  min-height: 0;
+
+  flex: 1;              /* ✅ để nội dung “ăn” hết chiều cao còn lại trong box */
+}
+
+/* Cụm icon + chữ */
+.fan-light-box .left-icon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.fan-light-box .left-icon i {
+  font-size: 38px;
+}
+
+.fan-light-box .left-icon span {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.fan-light-box .right-icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* text trạng thái nếu dùng .message */
+.fan-light-box .message {
+  font-size: 15px;
+  margin-top: 2px;
+}
+
+/* Switch giữ nguyên như bạn đang dùng */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 54px;
+  height: 28px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  border-radius: 20px;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 60%;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #2ca87f;
+}
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* ================== AI IRRIGATION (1 KHUNG) ================== */
+
+.ai-box {
+  padding: 16px 20px;
+  overflow: hidden;
+}
+
+.ai-box h3 {
+  margin-bottom: 8px;
+}
+
+/* hàng trên: icon + text + switch */
+.ai-box .ai-auto-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 8px 12px;
+  margin-bottom: 6px;
+}
+
+.ai-box .ai-auto-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ai-box .ai-auto-left i {
+  font-size: 32px;
+}
+
+.ai-box .ai-auto-left span {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* grid 3 ô khu vực */
+.ai-box .ai-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding: 0 8px 8px;   /* tránh sát viền 2 bên */
+}
+
+/* ô khu vực */
+.ai-box .ai-area {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  color: #6b7280;
+  min-height: 86px;
+  padding: 16px 10px;
+  border-radius: 14px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  cursor: default;            /* chỉ hiển thị trạng thái */
+  pointer-events: none;       /* không cho click */
+
+  transition: transform .08s ease,
+              background-color .2s ease,
+              color .2s ease,
+              border-color .2s ease;
+}
+
+.ai-box .ai-area i {
+  font-size: 26px;
+}
+
+.ai-box .ai-area span {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ô đang được AI tưới */
+.ai-box .ai-area.active {
+  background-color: #009870;
+  color: #fff;
+  border-color: #009870;
+}
+
+/* khi tắt AI: mờ đi */
+.ai-box .ai-grid.disabled .ai-area {
+  opacity: 0.55;
+}
+
+
+
+
+
+
+/* ================== LỊCH SỬ (nếu dùng) ================== */
+.history-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 16px;
+  background-color: #009870;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.history-btn-fixed:hover {
+  background-color: #009870;
+}
+
+
+/* =========================
+   FIX LỆCH Ô AI (aiMessage dài làm lệch switch)
+   Dán ở CUỐI file để override CSS cũ
+   ========================= */
+.ai-box .ai-auto-top{
+  align-items: flex-start !important;
+}
+
+.ai-box .ai-auto-left{
+  flex: 1;
+  min-width: 0;                 /* quan trọng: không đẩy switch */
+  display: grid !important;
+  grid-template-columns: 40px 1fr;  /* icon | text */
+  grid-template-rows: auto auto;    /* title | message */
+  column-gap: 10px;
+  row-gap: 4px;
+  align-items: start;
+}
+
+.ai-box .ai-auto-left > i{
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+
+.ai-box .ai-auto-left > span{
+  grid-column: 2;
+  grid-row: 1;
+  line-height: 1.2;
+}
+
+.ai-box #aiMessage{
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0 !important;         /* đè inline margin */
+  font-size: 14px !important;
+  line-height: 1.25;
+  max-width: 100%;
+  word-break: break-word;
+
+  /* tránh message dài làm box bị cao + lệch */
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* canh switch xuống chút cho cân với dòng title */
+.ai-box .ai-auto-top > .switch{
+  margin-top: 6px;
+}
