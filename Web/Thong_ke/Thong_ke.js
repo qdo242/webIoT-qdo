@@ -133,7 +133,7 @@ const chartConfigs = [
 
     async function fetchData() {
       try {
-        const res = await axios.get('http://localhost:3000/api/data');
+        const res = await axios.get('https://webiot-skdp.onrender.com/api/data');
         const data = res.data;
         console.log('Dữ liệu nhận được:', data);
 
@@ -260,7 +260,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
 
       try {
-        const response = await axios.get(`http://localhost:3000/api/data-by-date?day=${day}&month=${month}&year=${year}`);
+        const response = await axios.get(`https://webiot-skdp.onrender.com/api/data-by-date?day=${day}&month=${month}&year=${year}`);
         const data = response.data;
 
         // ⚠️ Kiểm tra nếu không có dữ liệu
