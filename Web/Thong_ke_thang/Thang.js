@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const year = yearSelect.value;
 
     try {
-      const response = await axios.get('http://localhost:3000/api/monthly-summary', {
+      const response = await axios.get('https://webiot-skdp.onrender.com/api/monthly-summary', {
         params: { year }
       });
 
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 async function fetchMonthlyAverages(year) {
   try {
-    const res = await axios.get(`http://localhost:3000/api/monthly-summary?year=${year}`);
+    const res = await axios.get(`https://webiot-skdp.onrender.com/api/monthly-summary?year=${year}`);
     const data = res.data;
 
     if (!Array.isArray(data) || data.length === 0) {
@@ -332,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.getElementById('confirmExportBtn').addEventListener('click', async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/monthly-summary', {
+      const res = await axios.get('https://webiot-skdp.onrender.com/api/monthly-summary', {
         params: { year: selectedYear }
       });
 

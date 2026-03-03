@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // Vẽ biểu đồ---------------------------------------------------------------
 async function fetchYearlyAverages() {
   try {
-    const res = await axios.get('http://localhost:3000/api/yearly-summary');
+    const res = await axios.get('https://webiot-skdp.onrender.com/api/yearly-summary');
     const data = res.data;
 
     if (!Array.isArray(data) || data.length === 0) {
@@ -268,7 +268,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const message = document.getElementById('noDataMessage');
 
     try {
-      const response = await axios.get(`http://localhost:3000/api/yearly-summary`);
+      const response = await axios.get(`https://webiot-skdp.onrender.com/api/yearly-summary`);
       const data = response.data;
 
 

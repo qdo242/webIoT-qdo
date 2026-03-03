@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function updateSensorData() {
-  fetch("http://localhost:3000/api/data")
+  fetch("https://webiot-skdp.onrender.com/api/data")
     .then(res => res.json())
     .then(data => {
       if (!data || data.length === 0) return;

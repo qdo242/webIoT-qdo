@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   try {
-    const response = await axios.get(`http://localhost:3000/api/image-diagnosis`, {
+    const response = await axios.get(`https://webiot-skdp.onrender.com/api/image-diagnosis`, {
       params: { khu }
     });
 
