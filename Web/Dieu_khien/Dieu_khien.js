@@ -717,7 +717,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (el) el.addEventListener("click", () => (window.location.href = url));
   };
 
-  go('Trang-chu', "../Dashboard(HTML)/dashboard.html");
+  go('Trang-chu', "../Dashboard_HTML/dashboard.html");
   go('Thong-ke',  "../Thong_ke/Thong_ke.html");
   go('chatbot',   "../chatbot/AI.html");
   go('caytrong',  "../Caytrong/Caytrong.html");

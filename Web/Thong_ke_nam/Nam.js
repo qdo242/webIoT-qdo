@@ -1,7 +1,7 @@
 // Link các trang--------------------------------------------------------//
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('Trang-chu').addEventListener("click", function () {
-    window.location.href = "../Dashboard(HTML)/dashboard.html";
+    window.location.href = "../Dashboard_HTML/dashboard.html";
   });
 });
 document.addEventListener('DOMContentLoaded',function(){
