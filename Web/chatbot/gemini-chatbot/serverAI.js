@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // Nên dùng biến môi trường để bảo mật
-const API_KEY = process.env.API_KEY || 'AIzaSyAmxd7Wd73nErDOcAmsfS51mMvc9BDYwJg';
+const API_KEY = process.env.API_KEY || 'AIzaSyDLsEX6exBYseaHtKEszw-qz8okpoam6Ms';
 
 app.post('/ask', async (req, res) => {
   const userInput = req.body.prompt;
