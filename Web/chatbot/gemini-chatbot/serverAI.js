@@ -4,11 +4,13 @@ const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
+// Cấu hình Port động cho Render
 const PORT = process.env.PORT || 3001;
 
-app.use(cors()); // Cho phép frontend gọi từ domain khác
-app.use(express.json()); // Đọc JSON body
+app.use(cors());
+app.use(express.json());
 
+// Nên dùng biến môi trường để bảo mật
 const API_KEY = process.env.API_KEY || 'AIzaSyAmxd7Wd73nErDOcAmsfS51mMvc9BDYwJg';
 
 app.post('/ask', async (req, res) => {
@@ -21,17 +23,9 @@ app.post('/ask', async (req, res) => {
     const response = await axios.post(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
       {
-        contents: [
-          {
-            parts: [{ text: userInput }]
-          }
-        ]
+        contents: [{ parts: [{ text: userInput }] }]
       },
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
+      { headers: { 'Content-Type': 'application/json' } }
     );
 
     const result = response.data.candidates?.[0]?.content?.parts?.[0]?.text || 'Không có phản hồi từ Gemini.';
@@ -42,6 +36,11 @@ app.post('/ask', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`);
+// Thêm route này để kiểm tra server có sống không
+app.get('/', (req, res) => {
+  res.send('🤖 AI Server is Live!');
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server đang chạy tại cổng: ${PORT}`);
 });
