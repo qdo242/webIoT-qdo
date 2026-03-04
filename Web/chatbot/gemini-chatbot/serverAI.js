@@ -4,12 +4,12 @@ const axios = require('axios');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors()); // Cho phép frontend gọi từ domain khác
 app.use(express.json()); // Đọc JSON body
 
-const API_KEY = 'AIzaSyAmxd7Wd73nErDOcAmsfS51mMvc9BDYwJg';
+const API_KEY = process.env.API_KEY || 'AIzaSyAmxd7Wd73nErDOcAmsfS51mMvc9BDYwJg';
 
 app.post('/ask', async (req, res) => {
   const userInput = req.body.prompt;
