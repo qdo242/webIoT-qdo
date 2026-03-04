@@ -77,7 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
     try {
       loading.classList.remove("hidden"); // ⏳ Hiện loading
 
-      const response = await axios.post('https://webiot-qdo.onrender.com//ask', {
+      const response = await axios.post('https://webiot-qdo.onrender.com/ask', {
         prompt: promptText
       });
 
