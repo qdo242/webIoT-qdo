@@ -165,7 +165,7 @@ function updateSensorData() {
 // ======================
 // HIỂN THỊ AI label_text cho 3 khu (1,2,3)
 // ======================
-const AI_BASE = "http://192.168.250.4:3000";
+const AI_BASE = "https://webiot-skdp.onrender.com";
 
 async function fetchLatestPred(gardenId) {
   const url = `${AI_BASE}/pred/${gardenId}?limit=1`; // ✅ dùng AI_BASE
